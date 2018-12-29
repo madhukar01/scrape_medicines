@@ -10,11 +10,9 @@ medicines_list = []
 pages_crawled = 0
 count = 1
 
-#try:
-workbook = xlsxwriter.Workbook('medicines_list.xlsx')
-worksheet = workbook.add_worksheet()
-
 for alpha in alphabets:
+    workbook = xlsxwriter.Workbook('medicines_list_' + alpha + '.xlsx')
+    worksheet = workbook.add_worksheet()
     for num in range(1, 1000):
         pages_crawled += 1
         page = urlopen(url.format(alphabet=alpha, page_number=num))
@@ -54,6 +52,8 @@ for alpha in alphabets:
                         print(generic_name, dose, '\n')
         print('Total medicines obtained: ', count)
         print('Total pages crawled: ', pages_crawled)
+    workbook.close()
+
 '''
 except:
     print('======================================= Error occurred =======================================')
