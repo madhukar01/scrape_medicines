@@ -3,17 +3,16 @@ from bs4 import BeautifulSoup as bs
 import xlsxwriter
 import pickle
 
-#alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-alphabets = ['l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 max_pages = 1000
 url = 'https://www.medindia.net/drug-price/brand-index.asp?alpha={alphabet}&page={page_number}'
 medicines_list = []
 pages_crawled = 0
 count = 1
+workbook = xlsxwriter.Workbook('medicines_list.xlsx')
+worksheet = workbook.add_worksheet()
 
 for alpha in alphabets:
-    workbook = xlsxwriter.Workbook('medicines_list_' + alpha + '.xlsx')
-    worksheet = workbook.add_worksheet()
     for num in range(1, 1000):
         pages_crawled += 1
         page = urlopen(url.format(alphabet=alpha, page_number=num))
@@ -56,16 +55,4 @@ for alpha in alphabets:
                             print(generic_name, dose, '\n')
         print('Total medicines obtained: ', count)
         print('Total pages crawled: ', pages_crawled)
-    workbook.close()
-
-'''
-except:
-    print('======================================= Error occurred =======================================')
-    pickle.dump(medicines_list, open('medicines_list.dat', 'wb'))
-    workbook.close()
-else:
-    workbook.close()
-    pickle.dump(medicines_list, open('medicines_list.dat', 'wb'))
-    print('Crawling completed !!!')
-
-#print(html_data, file=open('data.html', 'w', encoding='utf-8'))'''
+workbook.close()
